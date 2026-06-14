@@ -42,7 +42,7 @@ const BANK_ACCOUNT     = "1000123456789";
 const BANK_HOLDER      = "Your Name";
 
 // Shop identity
-const SHOP_NAME        = "Beki Gaming Shop 🎮";
+const SHOP_NAME        = "VENU Market";
 const SHOP_TAGLINE     = "Best Electronics & Gaming Laptops in Addis Ababa";
 
 // ══════════════════════════════════════════════════════
