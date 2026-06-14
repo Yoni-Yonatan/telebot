@@ -16,9 +16,9 @@ const { Telegraf, Markup, session } = require("telegraf");
 // ─────────────────────────────────────────────────
 //  🔧 CONFIGURATION — FILL THESE IN
 // ─────────────────────────────────────────────────
-const BOT_TOKEN        = "8317048510:AAE93SoyopW6zZvkjqVyn3AfM3AmoZp022I";   // from @BotFather
-const ADMIN_CHAT_ID    = 1864114540;                // from @userinfobot (number!)
-const CHANNEL_USERNAME = "@Venu_Market_bot";    // your channel
+const BOT_TOKEN        = "";   // from @BotFather token
+const ADMIN_CHAT_ID    = ;                // from @userinfobot (number!)
+const CHANNEL_USERNAME = "";    // your channel
 
 // Payment Details
 const TELEBIRR_NUMBER  = "0912345678";
