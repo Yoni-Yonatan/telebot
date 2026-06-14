@@ -31,7 +31,7 @@ const { Telegraf, Markup, session } = require("telegraf");
 // ══════════════════════════════════════════════════════
 const BOT_TOKEN        = "8317048510:AAE93SoyopW6zZvkjqVyn3AfM3AmoZp022I";   // @BotFather
 const ADMIN_CHAT_ID    = 1864114540;                // @userinfobot — your ID (number)
-const CHANNEL_USERNAME = "@Venu_Market_bot";     // e.g. "@bekigaming"
+const CHANNEL_USERNAME = "@VENU_Et_Market";     // e.g. "@bekigaming"
 const SUPPORT_USERNAME = "@yoni_yonatan"; // your Telegram username for support
 
 // Payment
