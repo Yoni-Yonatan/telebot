@@ -29,13 +29,11 @@ const { Telegraf, Markup, session } = require("telegraf");
 // ══════════════════════════════════════════════════════
 //  🔧 CONFIG — FILL THESE IN
 // ══════════════════════════════════════════════════════
-const BOT_TOKEN        = "";   // @BotFather
-const ADMIN_CHAT_ID    = ;                // @userinfobot — your ID (number)
-const CHANNEL_USERNAME = "@";     // e.g. "@bekigaming"
-const SUPPORT_USERNAME = "@"; // your Telegram username for support
-
-// Payment
-const TELEBIRR_NUMBER  = "0912345678";
+const BOT_TOKEN        = "8317048510:AAE93SoyopW6zZvkjqVyn3AfM3AmoZp022I";   // @BotFather
+const ADMIN_CHAT_ID    = 1864114540;                // @userinfobot — your ID (number)
+const CHANNEL_USERNAME = "@VENU_Et_Market";     // e.g. "@bekigaming"
+const SUPPORT_USERNAME = "@yoni_yonatan"; // your Telegram username for support
+const SUPPORT_PHONE    = "0912345678"; // your phone number for support
 const TELEBIRR_NAME    = "Your Name";
 const BANK_NAME        = "CBE";
 const BANK_ACCOUNT     = "1000123456789";
