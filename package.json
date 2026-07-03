@@ -2,7 +2,7 @@
   "name": "my-order-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "bot copy.js",
+  "main": "bot.js",
   "dependencies": {
     "abort-controller": "^3.0.0",
     "buffer-alloc": "^1.2.0",
@@ -22,6 +22,7 @@
     "whatwg-url": "^5.0.0"
   },
   "scripts": {
+    "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

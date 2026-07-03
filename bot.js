@@ -35,6 +35,7 @@ const CHANNEL_USERNAME = "@VENU_Et_Market";     // e.g. "@bekigaming"
 const SUPPORT_USERNAME = "@yoni_yonatan"; // your Telegram username for support
 const SUPPORT_PHONE    = "0912345678"; // your phone number for support
 const TELEBIRR_NAME    = "Your Name";
+const TELEBIRR_NUMBER  = "0912345678";
 const BANK_NAME        = "CBE";
 const BANK_ACCOUNT     = "1000123456789";
 const BANK_HOLDER      = "Your Name";
@@ -193,6 +194,10 @@ function tr(lang, key, ...args) {
 const bot = new Telegraf(BOT_TOKEN);
 bot.use(session());
 bot.use((ctx, next) => { if (!ctx.session) ctx.session = {}; return next(); });
+
+// Store bot info for deep links
+let botUsername = "";
+bot.telegram.getMe().then((me) => { botUsername = me.username; });
 
 const getLang = (ctx) => ctx.session.lang || "en";
 const getStep = (ctx) => ctx.session.step || S.IDLE;
@@ -703,6 +708,24 @@ bot.on("message", async (ctx) => {
   const lang = getLang(ctx);
   const text = ctx.message?.text?.trim() || "";
 
+  // ── PHOTO HANDLED HERE (before text checks) ─────
+  if (ctx.message?.photo) {
+    const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
+    console.log(`[PHOTO-msg] from ${ctx.from.id} step=${step} isAdmin=${isAdmin(ctx)}`);
+    if (step === S.P_PHOTO && isAdmin(ctx)) {
+      try {
+        return await publishToChannel(ctx, fileId);
+      } catch (err) {
+        console.error("[PHOTO] publishToChannel error:", err);
+        return ctx.reply(`❌ Error: ${err.message}`);
+      }
+    }
+    if (step === S.SCREENSHOT) {
+      return handleScreenshot(ctx, fileId);
+    }
+    return; // photo received but no matching step — ignore
+  }
+
   // ── SUPPORT MESSAGE ─────────────────────────────
   if (step === S.SUPPORT_MSG) {
     if (!text) return;
@@ -845,21 +868,7 @@ bot.on("message", async (ctx) => {
 // ══════════════════════════════════════════════════════
 //  PHOTO HANDLER
 // ══════════════════════════════════════════════════════
-bot.on("photo", async (ctx) => {
-  const step   = getStep(ctx);
-  const lang   = getLang(ctx);
-  const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
-
-  // Admin posting item photo
-  if (step === S.P_PHOTO && isAdmin(ctx)) {
-    return publishToChannel(ctx, fileId);
-  }
-
-  // Customer uploading payment screenshot
-  if (step === S.SCREENSHOT) {
-    return handleScreenshot(ctx, fileId);
-  }
-});
+// Photo handling is done inside bot.on("message") above
 
 // Also accept document screenshots
 bot.on("document", async (ctx) => {
@@ -921,6 +930,12 @@ async function handleScreenshot(ctx, fileId) {
 }
 
 async function publishToChannel(ctx, photoFileId) {
+  // Ensure bot username is available
+  if (!botUsername) {
+    const me = await ctx.telegram.getMe();
+    botUsername = me.username;
+  }
+
   const name    = ctx.session.pName  || "Item";
   const spec    = ctx.session.pSpec  || "";
   const price   = ctx.session.pPrice || 0;
@@ -929,8 +944,8 @@ async function publishToChannel(ctx, photoFileId) {
 
   const itemId  = newItemId();
   const slug    = name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").substring(0, 20);
-  const deepLink = `https://t.me/${ctx.botInfo.username}?start=ITEM_${slug}_${price}_${itemId}`;
-  const wlLink   = `https://t.me/${ctx.botInfo.username}?start=WL_${itemId}`;
+  const deepLink = `https://t.me/${botUsername}?start=ITEM_${slug}_${price}_${itemId}`;
+  const wlLink   = `https://t.me/${botUsername}?start=WL_${itemId}`;
 
   // Save to catalog
   items.set(itemId, { id: itemId, name, spec, price, stock, photo: photoFileId });
